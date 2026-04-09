@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  role          String    @default("citizen") // citizen | admin | pump_operator
+  fuelCredits   Float     @default(100.0)
+  location      String    @default("Zone-A")
+  bookings      Booking[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Station {
+  id              String    @id @default(cuid())
+  name            String
+  lat             Float
+  lng             Float
+  zone            String
+  currentStock    Float     // litres
+  maxCapacity     Float
+  status          String    @default("operational") // operational | critical | offline
+  queueLength     Int       @default(0)
+  hoursToShortage Float?
+  bookings        Booking[]
+  stockUpdates    StockUpdate[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Booking {
+  id           String   @id @default(cuid())
+  userId       String
+  stationId    String
+  slotTime     DateTime
+  fuelAmount   Float    // litres
+  creditCost   Float
+  status       String   @default("pending") // pending | confirmed | completed | cancelled
+  qrCode       String?
+  validatedAt  DateTime?
+  user         User     @relation(fields: [userId], references: [id])
+  station      Station  @relation(fields: [stationId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model StockUpdate {
+  id          String   @id @default(cuid())
+  stationId   String
+  previousStock Float
+  newStock    Float
+  updatedBy   String
+  reason      String?
+  station     Station  @relation(fields: [stationId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Alert {
+  id          String   @id @default(cuid())
+  type        String   // shortage | panic_buying | anomaly | system
+  severity    String   // low | medium | high | critical
+  zone        String
+  stationId   String?
+  message     String
+  resolved    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model BlockchainRecord {
+  id           String   @id @default(cuid())
+  blockIndex   Int      @unique
+  previousHash String
+  hash         String   @unique
+  nonce        Int
+  data         String   // JSON stringified
+  timestamp    DateTime @default(now())
+}
+
+model FuelCreditTransaction {
+  id          String   @id @default(cuid())
+  userId      String
+  amount      Float
+  type        String   // debit | credit
+  reason      String
+  balance     Float
+  createdAt   DateTime @default(now())
+}
