@@ -25,6 +25,13 @@ export default function AdminDashboard({ initialTab = 'command' }: { initialTab?
   const [activeAlert, setActiveAlert] = useState<SimAlert | null>(null)
   const [selectedZone, setSelectedZone] = useState('all')
   const [activeTab, setActiveTab] = useState<'command' | 'distribution' | 'blockchain_view'>(initialTab)
+  const [crisisBannerState, setCrisisBannerState] = useState<'active' | 'accepted' | 'modifying'>('active')
+
+  const [distributionPlans, setDistributionPlans] = useState([
+    { truck: 'FT-101', from: 'West Zone Depot', to: 'BKC Corporate Pump', amount: '8,000L', eta: '45 min', priority: 'URGENT', color: 'var(--neon-red)', status: 'pending' },
+    { truck: 'FT-205', from: 'Central Refinery', to: 'South Ex Service Station', amount: '6,000L', eta: '1h 20min', priority: 'HIGH', color: 'var(--neon-orange)', status: 'pending' },
+    { truck: 'FT-318', from: 'North Zone Overflow', to: 'Chandni Chowk Depot', amount: '3,500L', eta: '35 min', priority: 'MED', color: 'var(--neon-yellow)', status: 'pending' },
+  ])
 
   const [supplyData] = useState(() =>
     ['North', 'South', 'East', 'West'].map(zone => {
@@ -75,26 +82,71 @@ export default function AdminDashboard({ initialTab = 'command' }: { initialTab?
         <div className="page-content">
 
           {/* Crisis Banner */}
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(255,122,48,0.1), rgba(255,51,102,0.08))',
-            border: '1px solid rgba(255,122,48,0.3)',
-            borderRadius: '12px', padding: '14px 20px',
-            display: 'flex', alignItems: 'center', gap: '16px',
-          }}>
-            <div style={{ fontSize: '1.5rem', animation: 'pulse-ring 1.5s infinite' }}>🚨</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 700, color: 'var(--neon-orange)', marginBottom: '2px' }}>
-                HIGH ALERT: East and South Zones under shortage risk
+          {crisisBannerState === 'active' && (
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(255,122,48,0.1), rgba(255,51,102,0.08))',
+              border: '1px solid rgba(255,122,48,0.3)',
+              borderRadius: '12px', padding: '14px 20px',
+              display: 'flex', alignItems: 'center', gap: '16px',
+            }}>
+              <div style={{ fontSize: '1.5rem', animation: 'pulse-ring 1.5s infinite' }}>🚨</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 700, color: 'var(--neon-orange)', marginBottom: '2px' }}>
+                  HIGH ALERT: East and South Zones under shortage risk
+                </div>
+                <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+                  AI Recommendation: Reroute supply truck FT-442 from West Zone depot to East Zone (Ballygunge Circular Fuel) — estimated 45 min ETA
+                </div>
               </div>
-              <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
-                AI Recommendation: Reroute supply truck FT-442 from West Zone depot to East Zone (Ballygunge Circular Fuel) — estimated 45 min ETA
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button className="btn btn-success btn-sm" onClick={() => setCrisisBannerState('accepted')}>✅ Accept AI Plan</button>
+                <button className="btn btn-ghost btn-sm" onClick={() => setCrisisBannerState('modifying')}>Modify</button>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <button className="btn btn-success btn-sm">✅ Accept AI Plan</button>
-              <button className="btn btn-ghost btn-sm">Modify</button>
+          )}
+
+          {crisisBannerState === 'accepted' && (
+            <div style={{
+              background: 'rgba(0, 255, 136, 0.1)',
+              border: '1px solid var(--neon-green)',
+              borderRadius: '12px', padding: '14px 20px',
+              display: 'flex', alignItems: 'center', gap: '16px',
+            }}>
+              <div style={{ fontSize: '1.5rem' }}>✅</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 700, color: 'var(--neon-green)', marginBottom: '2px' }}>
+                  AI Plan Executed Successfully
+                </div>
+                <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+                  Supply truck FT-442 has been successfully rerouted to Ballygunge Circular Fuel. Crisis averted.
+                </div>
+              </div>
+              <button className="btn btn-ghost btn-sm" onClick={() => setCrisisBannerState('active')}>Reset</button>
             </div>
-          </div>
+          )}
+
+          {crisisBannerState === 'modifying' && (
+            <div style={{
+              background: 'rgba(255, 122, 48, 0.1)',
+              border: '1px solid var(--neon-orange)',
+              borderRadius: '12px', padding: '14px 20px',
+              display: 'flex', alignItems: 'center', gap: '16px',
+            }}>
+              <div style={{ fontSize: '1.5rem' }}>⚙️</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 700, color: 'var(--neon-orange)', marginBottom: '2px' }}>
+                  Manual Override Mode
+                </div>
+                <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+                  Awaiting your custom routing instructions for FT-442...
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button className="btn btn-success btn-sm" onClick={() => setCrisisBannerState('accepted')}>Confirm Mod</button>
+                <button className="btn btn-ghost btn-sm" onClick={() => setCrisisBannerState('active')}>Cancel</button>
+              </div>
+            </div>
+          )}
 
           {/* KPIs */}
           <div className="grid-4">
@@ -276,14 +328,12 @@ export default function AdminDashboard({ initialTab = 'command' }: { initialTab?
                   <span className="badge badge-info">Optimized</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {[
-                    { truck: 'FT-101', from: 'West Zone Depot', to: 'BKC Corporate Pump', amount: '8,000L', eta: '45 min', priority: 'URGENT', color: 'var(--neon-red)' },
-                    { truck: 'FT-205', from: 'Central Refinery', to: 'South Ex Service Station', amount: '6,000L', eta: '1h 20min', priority: 'HIGH', color: 'var(--neon-orange)' },
-                    { truck: 'FT-318', from: 'North Zone Overflow', to: 'Chandni Chowk Depot', amount: '3,500L', eta: '35 min', priority: 'MED', color: 'var(--neon-yellow)' },
-                  ].map(r => (
+                  {distributionPlans.map((r, i) => (
                     <div key={r.truck} style={{
                       padding: '14px', background: 'var(--bg-elevated)',
                       borderRadius: '10px', border: `1px solid ${r.color}30`,
+                      opacity: r.status === 'approved' ? 0.7 : 1,
+                      transition: 'all 0.3s ease'
                     }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                         <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.9375rem' }}>{r.truck}</div>
@@ -299,9 +349,38 @@ export default function AdminDashboard({ initialTab = 'command' }: { initialTab?
                         <span>⏱ ETA: {r.eta}</span>
                       </div>
                       <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
-                        <button className="btn btn-success btn-sm" style={{ fontSize: '0.75rem' }}>✅ Approve</button>
-                        <button className="btn btn-ghost btn-sm" style={{ fontSize: '0.75rem' }}>Reroute</button>
-                        <button className="btn btn-ghost btn-sm" style={{ fontSize: '0.75rem' }}>Track</button>
+                        {r.status === 'approved' ? (
+                          <span style={{ color: 'var(--neon-green)', fontSize: '0.8125rem', fontWeight: 600, padding: '4px 0' }}>✅ Dispatch Approved & Running</span>
+                        ) : r.status === 'rerouted' ? (
+                          <span style={{ color: 'var(--neon-orange)', fontSize: '0.8125rem', fontWeight: 600, padding: '4px 0' }}>🔄 Rerouting Process Initiated...</span>
+                        ) : r.status === 'tracking' ? (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span style={{ color: 'var(--neon-cyan)', fontSize: '0.8125rem', fontWeight: 600, padding: '4px 0', animation: 'pulse-ring 1s infinite' }}>📡 Tracking Mode</span>
+                            <button className="btn btn-ghost btn-sm" style={{ fontSize: '0.75rem' }} onClick={() => {
+                              const newPlans = [...distributionPlans]
+                              newPlans[i].status = 'pending'
+                              setDistributionPlans(newPlans)
+                            }}>Close</button>
+                          </div>
+                        ) : (
+                          <>
+                            <button className="btn btn-success btn-sm" style={{ fontSize: '0.75rem' }} onClick={() => {
+                              const newPlans = [...distributionPlans]
+                              newPlans[i].status = 'approved'
+                              setDistributionPlans(newPlans)
+                            }}>✅ Approve</button>
+                            <button className="btn btn-ghost btn-sm" style={{ fontSize: '0.75rem' }} onClick={() => {
+                              const newPlans = [...distributionPlans]
+                              newPlans[i].status = 'rerouted'
+                              setDistributionPlans(newPlans)
+                            }}>Reroute</button>
+                            <button className="btn btn-ghost btn-sm" style={{ fontSize: '0.75rem' }} onClick={() => {
+                              const newPlans = [...distributionPlans]
+                              newPlans[i].status = 'tracking'
+                              setDistributionPlans(newPlans)
+                            }}>Track</button>
+                          </>
+                        )}
                       </div>
                     </div>
                   ))}

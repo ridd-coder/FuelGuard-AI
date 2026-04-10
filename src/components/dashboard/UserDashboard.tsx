@@ -6,6 +6,7 @@ import Topbar from '@/components/layout/Topbar'
 import InteractiveMap from '@/components/maps/InteractiveMap'
 import GeminiChatbot from '@/components/chatbot/GeminiChatbot'
 import WhatsAppScanner from '@/components/whatsapp/WhatsAppScanner'
+import EmergencyOverridePanel from '@/components/dashboard/EmergencyOverridePanel'
 import { STATIONS } from '@/lib/simulation'
 import type { SimStation } from '@/lib/simulation'
 import {
@@ -365,7 +366,16 @@ export default function UserDashboard({ initialTab = 'overview' }: { initialTab?
           )}
 
           {activeTab === 'book' && (
-            <div className="grid-2" style={{ alignItems: 'start' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              {/* Emergency Priority Override — full width */}
+              <EmergencyOverridePanel
+                stations={stations}
+                creditsBalance={credits.balance}
+                onCreditDeducted={loadData}
+              />
+
+              {/* Standard booking + bookings list */}
+              <div className="grid-2" style={{ alignItems: 'start' }}>
               {/* Booking form */}
               <div className="card">
                 <div className="card-header">
@@ -461,6 +471,7 @@ export default function UserDashboard({ initialTab = 'overview' }: { initialTab?
                     </div>
                   )}
                 </div>
+              </div>
               </div>
             </div>
           )}
