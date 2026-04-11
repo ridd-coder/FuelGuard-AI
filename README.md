@@ -1,4 +1,5 @@
-<img width="1470" height="956" alt="landing" src="https://github.com/user-attachments/assets/8a67a460-87a3-4896-849f-f6d9d79a3e12" /># 🚀 FuelGuard AI  
+<img width="1470" height="956" alt="landing" src="https://github.com/user-attachments/assets/8a67a460-87a3-4896-849f-f6d9d79a3e12" /># 
+🚀 FuelGuard AI  
 ### 🌍 AI Fuel Crisis Management System
 
 > **“Fuel Crisis Intelligence at Government Scale”**
@@ -69,7 +70,7 @@ FuelGuard AI provides:
 ## 📸 Screenshots
 
 ### 🖥️ 1. Landing Page – Crisis Intelligence Dashboard
-![Landing Page](./assets/landing.png)
+![Landing Page](<img width="1470" height="956" alt="landing" src="https://github.com/user-attachments/assets/c48fe34c-243b-4382-a075-eafa7d882cfb" />)
 
 **Description:**
 - Overview of platform  
@@ -80,7 +81,7 @@ FuelGuard AI provides:
 ---
 
 ### 🧩 2. Platform Capabilities
-![Features](./assets/features.png)
+![Features](<img width="1470" height="956" alt="features" src="https://github.com/user-attachments/assets/90455ff6-7d0c-4609-a6ef-ee46b7d967c4" />)
 
 **Description:**
 - Core modules:
@@ -94,7 +95,7 @@ FuelGuard AI provides:
 ---
 
 ### 🗺️ 3. Live Fuel Map
-![Fuel Map](./assets/map.png)
+![Fuel Map](<img width="1470" height="956" alt="map" src="https://github.com/user-attachments/assets/396020b1-dd95-4f3d-af1f-9779554f76f9" />)
 
 **Description:**
 - Interactive map  
@@ -107,7 +108,7 @@ FuelGuard AI provides:
 ---
 
 ### 👨‍💼 4. Citizen Dashboard
-![Citizen Dashboard](./assets/citizen.png)
+![Citizen Dashboard](<img width="1470" height="956" alt="citizen" src="https://github.com/user-attachments/assets/f81b1158-f8ac-4808-acbf-91ab3459e106" />)
 
 **Description:**
 - Shows credits, stations, bookings  
@@ -116,7 +117,7 @@ FuelGuard AI provides:
 ---
 
 ### 🤖 5. AI Assistant + Alerts
-![AI Chat](./assets/ai-chat.png)
+![AI Chat](<img width="1470" height="956" alt="ai-chat" src="https://github.com/user-attachments/assets/d30b0161-35a8-4fb7-bd87-f7966a02745f" />)
 
 **Description:**
 - AI chatbot for queries  
@@ -128,7 +129,7 @@ FuelGuard AI provides:
 ---
 
 ### 🎫 6. Fuel Slot Booking
-![Booking](./assets/booking.png)
+![Booking](<img width="1470" height="956" alt="booking" src="https://github.com/user-attachments/assets/6949c61f-5c6b-437f-837a-3b5c60e120f8" />)
 
 **Description:**
 - Select station, time, fuel  
@@ -138,7 +139,7 @@ FuelGuard AI provides:
 ---
 
 ### 📲 7. WhatsApp Integration
-![WhatsApp](./assets/whatsapp.png)
+![WhatsApp](<img width="1470" height="956" alt="whatsapp" src="https://github.com/user-attachments/assets/90061614-695c-4110-9933-0af4d40c553c" />)
 
 **Description:**
 - Book fuel via WhatsApp  
@@ -148,7 +149,7 @@ FuelGuard AI provides:
 ---
 
 ### ⛽ 8. Pump Operator Dashboard
-![Operator](./assets/operator.png)
+![Operator](<img width="1470" height="956" alt="operator" src="https://github.com/user-attachments/assets/0ec2921d-be8f-47f7-aa0f-8e599940231e" />)
 
 **Description:**
 - Manage stock, queue, throughput  
