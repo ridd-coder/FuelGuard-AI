@@ -126,7 +126,6 @@ export default function InteractiveMap({ stations, height = 420, userLocation }:
           fillOpacity: 0.92,
           color: '#12121f',
           weight: 2,
-          // @ts-expect-error – Leaflet extended option for pulsing
           className: station.status === 'critical' ? 'marker-pulse-critical' : station.status === 'offline' ? 'marker-pulse-offline' : 'marker-pulse-operational',
         })
 

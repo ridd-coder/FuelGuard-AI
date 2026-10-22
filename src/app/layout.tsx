@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://fuelguard.vercel.app'),
   title: 'FuelGuard AI',
   description: 'AI-powered Fuel Crisis Management Platform. Real-time predictions, smart distribution & logistics routing.',
   keywords: 'fuel crisis, AI prediction, fuel management, shortage alerts, smart distribution',
